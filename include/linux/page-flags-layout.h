@@ -71,12 +71,6 @@
 #define NODE_NOT_IN_PAGE_FLAGS	1
 #endif
 
-#ifdef CONFIG_KASAN_SW_TAGS
-#define KASAN_TAG_WIDTH 8
-#else
-#define KASAN_TAG_WIDTH 0
-#endif
-
 #ifdef CONFIG_NUMA_BALANCING
 #define LAST__PID_SHIFT 8
 #define LAST__PID_MASK  ((1 << LAST__PID_SHIFT)-1)
@@ -101,8 +95,12 @@
 	<= BITS_PER_LONG - NR_PAGEFLAGS
 #if ZONES_WIDTH + LRU_GEN_WIDTH + LRU_REFS_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
 #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
+<<<<<<< HEAD
 	KASAN_TAG_WIDTH + LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
 
+=======
+	LAST_CPUPID_SHIFT <= BITS_PER_LONG - NR_PAGEFLAGS
+>>>>>>> c9f6e71c0179 (mm: mglru fix on qcom baseline)
 #define LAST_CPUPID_WIDTH LAST_CPUPID_SHIFT
 #else
 #define LAST_CPUPID_WIDTH 0
@@ -118,6 +116,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #if ZONES_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + KASAN_TAG_WIDTH + LAST_CPUPID_WIDTH \
 >>>>>>> edfc27d8d3bb (include/linux/page-flags-layout.h: cleanups)
 	> BITS_PER_LONG - NR_PAGEFLAGS
@@ -128,6 +127,19 @@
 =======
 #if ZONES_WIDTH + LRU_GEN_WIDTH + LRU_REFS_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
 =======
+=======
+#ifdef CONFIG_KASAN_SW_TAGS
+#define KASAN_TAG_WIDTH 8
+#if ZONES_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
+	KASAN_TAG_WIDTH + LAST_CPUPID_WIDTH > BITS_PER_LONG - NR_PAGEFLAGS
+#error "Not enough bits in page flags"
+#endif
+
+#else
+#define KASAN_TAG_WIDTH 0
+#endif
+
+>>>>>>> c9f6e71c0179 (mm: mglru fix on qcom baseline)
 #if ZONES_WIDTH + LRU_GEN_WIDTH + SECTIONS_WIDTH + NODES_WIDTH + \
 >>>>>>> a21e91db5a18 (mm: multi-gen LRU: merge v11 patchset)
 	KASAN_TAG_WIDTH + LAST_CPUPID_WIDTH > BITS_PER_LONG - NR_PAGEFLAGS
